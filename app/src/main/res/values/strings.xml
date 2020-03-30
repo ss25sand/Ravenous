@@ -5,7 +5,7 @@
     <string name="review_count">Review Count</string>
     <string name="food_category">Food Category</string>
     <string name="where">Where?</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Let\'s Go</string>
+    <string name="list">List</string>
+    <string name="grid">Grid</string>
 </resources>

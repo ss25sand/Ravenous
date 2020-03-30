@@ -1,42 +1,67 @@
 package com.example.ravenous.ui.search
 
-
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.example.ravenous.LOG_TAG
 import com.example.ravenous.R
-import com.example.ravenous.data.BusinessRepository
-import com.example.ravenous.ui.SharedBusinessViewModel
+import com.example.ravenous.data.SearchForm
+import com.example.ravenous.sortByOptions
+import com.example.ravenous.ui.shared.SharedViewModel
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.fragment_search.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class SearchFragment : Fragment() {
 
-    private lateinit var viewModel: SharedBusinessViewModel
-    private lateinit var navController: NavController
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host)
-        viewModel = ViewModelProvider(requireActivity()).get(SharedBusinessViewModel::class.java)
-        viewModel.businessData.observe(viewLifecycleOwner, Observer {
-            Log.i(LOG_TAG, it.toString())
-        })
+        (requireActivity() as AppCompatActivity).run {
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        }
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
+
+        val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+
+        val foodCategoryInput: TextInputEditText = view.findViewById(R.id.foodInput)
+        val locationInput: TextInputEditText = view.findViewById(R.id.locationInput)
+        val spinner: Spinner = view.findViewById(R.id.sortBySpinner)
+        val searchButton: Button = view.findViewById(R.id.searchButton)
+
+        ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            sortByOptions.keys.toTypedArray()
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        searchButton.setOnClickListener {
+            viewModel.searchForm.value = SearchForm(
+                foodCategoryInput.text.toString().trim(),
+                locationInput.text.toString().trim(),
+                sortByOptions[sortBySpinner.selectedItem.toString()] ?: error("")
+            )
+            viewModel.getData()
+            Navigation
+                .findNavController(requireActivity(), R.id.nav_host)
+                .navigate(R.id.action_nav_result)
+        }
+
+        return view
     }
-
-
 }
