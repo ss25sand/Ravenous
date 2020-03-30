@@ -6,5 +6,5 @@ data class Location (
     val state: String,
     val zip_code: String
 ) {
-    val fullAddress get() = "$address1 $city $state $zip_code"
+    val fullAddress get() = "$address1\n$city, $state\n$zip_code"
 }

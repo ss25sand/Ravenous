@@ -5,6 +5,6 @@ data class Business(
     val name: String,
     val image_url: String,
     val review_count: String,
-    val rating: Double,
+    val rating: Float,
     val location: Location
 )
