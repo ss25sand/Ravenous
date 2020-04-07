@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.example.ravenous.ui.shared.SharedViewModel" />
+            name="selectedBusiness"
+            type="com.example.ravenous.data.Business" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,56 +21,36 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:maxLines="2"
-            android:text="@{viewModel.selectedBusiness.name}"
+            android:text="@{selectedBusiness.name}"
             android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Homeslice Neal's Yard" />
 
-        <LinearLayout
-            android:id="@+id/reviewLayout"
+        <Button
+            android:id="@+id/ratingButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:text="@string/rate_it"
             app:layout_constraintBottom_toBottomOf="@+id/nameText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/nameText">
-
-            <TextView
-                android:id="@+id/reviewCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/readReviewButton"
-                app:layout_constraintStart_toStartOf="@id/readReviewButton"
-                app:layout_constraintTop_toTopOf="@+id/nameText"
-                app:reviews="@{viewModel.selectedBusiness.review_count}"
-                tools:text="222 Reviews" />
-
-            <Button
-                android:id="@+id/readReviewButton"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Read Reviews"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/priceText" />
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="@+id/nameText" />
 
         <ImageView
             android:id="@+id/businessImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="8dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/cardview_dark_background"
-            app:imageUrl="@{viewModel.selectedBusiness.image_url}"
+            app:imageUrl="@{selectedBusiness.image_url}"
             app:layout_constraintBottom_toTopOf="@+id/descriptionText"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reviewLayout"
+            app:layout_constraintTop_toBottomOf="@+id/nameText"
             tools:contentDescription="Monster name"
             tools:src="" />
 
@@ -80,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:text="@{viewModel.selectedBusiness.location.fullAddress}"
+            android:text="@{selectedBusiness.location.fullAddress}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@+id/ratingLabel"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:isIndicator="true"
-            android:rating="@{viewModel.selectedBusiness.rating}"
+            android:rating="@{selectedBusiness.rating}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

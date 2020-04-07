@@ -35,7 +35,8 @@ class DetailFragment : Fragment() {
 
         val binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
-        binding.viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        binding.selectedBusiness =
+            ViewModelProvider(requireActivity()).get(SharedViewModel::class.java).selectedBusiness.value
 
         return binding.root
     }

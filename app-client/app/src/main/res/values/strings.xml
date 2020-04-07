@@ -2,10 +2,12 @@
     <string name="app_name">Ravenous</string>
     <string name="best_match">Best Match</string>
     <string name="rating">Rating</string>
-    <string name="review_count">Review Count</string>
-    <string name="food_category">Food Category</string>
+    <string name="search">Search…</string>
     <string name="where">Where?</string>
-    <string name="search">Let\'s Go</string>
+    <string name="search_button">Let\'s Go</string>
     <string name="list">List</string>
     <string name="grid">Grid</string>
+    <string name="business_image_content_description">Business image</string>
+    <string name="recommended_businesses_label">Recommended businesses near you...</string>
+    <string name="rate_it">Rate it!</string>
 </resources>

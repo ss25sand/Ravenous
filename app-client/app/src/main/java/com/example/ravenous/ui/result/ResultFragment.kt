@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.ravenous.LOG_TAG
 import com.example.ravenous.R
 import com.example.ravenous.data.Business
+import com.example.ravenous.databinding.FragmentResultBinding
 import com.example.ravenous.ui.shared.SharedViewModel
 import com.example.ravenous.utils.PrefsHelper
 
@@ -41,9 +42,9 @@ class ResultFragment : Fragment(), ResultRecyclerAdapter.BusinessItemListener {
         setHasOptionsMenu(true)
 
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_result, container, false)
+        val binding = FragmentResultBinding.inflate(inflater, container, false)
 
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = binding.recyclerView
         val layoutStyle = PrefsHelper.getItemType(requireContext())
         recyclerView.layoutManager = if (layoutStyle == "grid") {
             GridLayoutManager(requireContext(), 2)
@@ -51,8 +52,8 @@ class ResultFragment : Fragment(), ResultRecyclerAdapter.BusinessItemListener {
             LinearLayoutManager(requireContext())
         }
 
-        swipeLayout = view.findViewById(R.id.swipeLayout)
-        swipeLayout.setOnRefreshListener { viewModel.getData() }
+        swipeLayout = binding.swipeLayout
+        swipeLayout.setOnRefreshListener { viewModel.getSearchResults() }
 
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host)
 
@@ -63,7 +64,7 @@ class ResultFragment : Fragment(), ResultRecyclerAdapter.BusinessItemListener {
             swipeLayout.isRefreshing = false
         })
 
-        return view
+        return binding.root
     }
 
     override fun onBusinessItemClick(business: Business) {
