@@ -27,6 +27,8 @@ services:
       - ./data:/opt/spark-data
   spark-submit:
     build: ./spark-submit
+    ports:
+      - "8080:8080"
     depends_on:
       - spark-master
     environment:

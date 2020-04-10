@@ -11,7 +11,6 @@ def init_spark_context():
     return sc
  
 def run_server(app):
- 
     # Enable WSGI access logging via Paste
     app_logged = TransLogger(app)
  
@@ -22,7 +21,7 @@ def run_server(app):
     cherrypy.config.update({
         'engine.autoreload.on': True,
         'log.screen': True,
-        'server.socket_port': 5432,
+        'server.socket_port': 8080,
         'server.socket_host': '0.0.0.0'
     })
  
