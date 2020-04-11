@@ -118,5 +118,3 @@ class RecommendationEngine:
             .format('csv')\
             .options(header='true', inferSchema='true')\
             .load(business_file_path)
-
-

@@ -28,20 +28,18 @@ class RecommendationRepository(override val app: Application) : BusinessReposito
 
     fun getRecommendations(location: Address?) {
         location?.let {
-            Log.i(LOG_TAG, it.toString())
             lastLocation = it
             val cityName: String = it.getAddressLine(0)
             val stateName: String = it.getAddressLine(1)
-            val countryName: String = it.getAddressLine(2)
             CoroutineScope(Dispatchers.IO).launch { getRecommendationResultsFromWeb(cityName, stateName) }
         }
     }
 
     @WorkerThread
     private suspend fun getRecommendationResultsFromWeb(city: String, state: String) {
-        Log.i(LOG_TAG, "Calling web service: ${networkAvailable()}")
+        Log.i(LOG_TAG, "Getting recommendation results from web: ${networkAvailable()}")
         if (networkAvailable()) {
-            val serviceRes = getRecommendationService().getTopRecommendations("1", 10, city, state)
+            val serviceRes = getRecommendationService().getTopRecommendations("u0LXt3Uea_GidxRW1xcsfg", 10, city, state)
             serviceRes.body()?.let {
                 Log.i(LOG_TAG, it.toString())
                 recommendedBusinesses.postValue(yelpRepository.getBusinessDataFromWeb(it))

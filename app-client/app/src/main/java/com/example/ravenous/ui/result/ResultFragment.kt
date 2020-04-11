@@ -70,7 +70,7 @@ class ResultFragment : Fragment(), ResultRecyclerAdapter.BusinessItemListener {
     override fun onBusinessItemClick(business: Business) {
         Log.i(LOG_TAG, "Selected business: ${business.name}")
         viewModel.selectedBusiness.value = business
-        navController.navigate(R.id.action_nav_detail)
+        navController.navigate(R.id.action_nav_result_to_detail)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

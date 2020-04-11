@@ -4,7 +4,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface RecommendationService {
-    @GET("{user_id}/rating/top/{count}")
+    @GET("{user_id}/ratings/top/{count}")
     suspend fun getTopRecommendations(
         @Path("user_id") userId: String,
         @Path("count") count: Int,

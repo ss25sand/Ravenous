@@ -6,11 +6,15 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.ravenous.ui.shared.SharedViewModel
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 
 
@@ -54,17 +58,31 @@ class MainActivity : AppCompatActivity() {
 
     fun startRecommendationRequest() {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        val geocoder = Geocoder(this)
+        val viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            Log.i(LOG_TAG, (location ?: "No last location value").toString())
-            location?.let {
-                val geocoder = Geocoder(this)
-                val addresses: List<Address> = geocoder.getFromLocation(it.latitude, it.latitude, 1)
+        val locationRequest = LocationRequest()
+        locationRequest.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+        locationRequest.interval = 0
+        locationRequest.fastestInterval = 0
+        locationRequest.numUpdates = 1
 
-                val viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                val lastLocation: Location = locationResult.lastLocation
+                val addresses: List<Address> = geocoder.getFromLocation(lastLocation.latitude, lastLocation.latitude, 1)
+                Log.i(LOG_TAG, (addresses ?: "No last location value").toString())
                 viewModel.lastLocation.value = addresses.first()
             }
-
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            Log.i(LOG_TAG, (location ?: "No last location value").toString())
+            if (location != null) {
+                val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.latitude, 1)
+                viewModel.lastLocation.value = addresses.first()
+            } else {
+                fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+            }
         }
     }
 }

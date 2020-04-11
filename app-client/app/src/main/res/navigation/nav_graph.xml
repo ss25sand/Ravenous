@@ -10,8 +10,11 @@
         android:name="com.example.ravenous.ui.search.SearchFragment"
         android:label="SearchFragment" >
         <action
-            android:id="@+id/action_nav_result"
+            android:id="@+id/action_nav_search_to_result"
             app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_nav_search_to_detail"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
@@ -19,7 +22,7 @@
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" >
         <action
-            android:id="@+id/action_nav_detail"
+            android:id="@+id/action_nav_result_to_detail"
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment

@@ -66,7 +66,7 @@ class SearchFragment : Fragment(), ResultRecyclerAdapter.BusinessItemListener {
             viewModel.getSearchResults()
             Navigation
                 .findNavController(requireActivity(), R.id.nav_host)
-                .navigate(R.id.action_nav_result)
+                .navigate(R.id.action_nav_search_to_result)
         }
 
         val recyclerView = binding.recyclerView
@@ -90,6 +90,6 @@ class SearchFragment : Fragment(), ResultRecyclerAdapter.BusinessItemListener {
     override fun onBusinessItemClick(business: Business) {
         Log.i(LOG_TAG, "Selected business: ${business.name}")
         viewModel.selectedBusiness.value = business
-        navController.navigate(R.id.action_nav_detail)
+        navController.navigate(R.id.action_nav_search_to_detail)
     }
 }
